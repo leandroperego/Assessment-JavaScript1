@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Jogo da Velha</title>
+</head>
+
+<body>
+
+  <header>
+    <h1>Jogo da Velha</h1>
+    <div>
+      <h2 id="linhaJogadorDaVez">Jogador da vez: <span id="sJogadorDaVez">X</span></h2>
+    </header>
+    </div>
+
+  <main>
+    <div class="tile_row">
+      <span class="tile" onclick="marcarCasa(event, 1)"></span>
+      <span class="tile" onclick="marcarCasa(event, 2)"></span>
+      <span class="tile" onclick="marcarCasa(event, 3)"></span>
+    </div>
+    <div class="tile_row">
+      <span class="tile" onclick="marcarCasa(event, 4)"></span>
+      <span class="tile" onclick="marcarCasa(event, 5)"></span>
+      <span class="tile" onclick="marcarCasa(event, 6)"></span>
+    </div>
+    <div class="tile_row">
+      <span class="tile" onclick="marcarCasa(event, 7)"></span>
+      <span class="tile" onclick="marcarCasa(event, 8)"></span>
+      <span class="tile" onclick="marcarCasa(event, 9)"></span>
+    </div>
+  </main>
+  <footer>
+    <button class="btPadrao" onclick="reiniciarJogo()">Reiniciar Jogo</button>
+    <p id="aviso"></p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+
+</html>
