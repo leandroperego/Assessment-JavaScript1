@@ -36,7 +36,6 @@ function marcarCasa(evento, numeroCasa) {
         referenciaAviso.style.color = "green";
         referenciaAviso.innerText = `O jogador ${jogadorAtual} venceu!!`;
         bloquearJogo();
-        lancarMelhorTempoJogador(jogadorAtual, calcularTempoEmSegundos(inicioJogo, fimJogo));
         pontuarJogadorVencedor(jogadorAtual);
         exibirTempoDeJogo();
       }
@@ -132,15 +131,17 @@ function pontuarJogadorVencedor(jogador){
     }
   }
   exibirPontuacao();
+  lancarMelhorTempoJogador(jogador, calcularTempoEmSegundos(inicioJogo, fimJogo));
 }
 
 function lancarMelhorTempoJogador(jogador, tempoDeJogo){
 
-  if (jogador == "X" && tempoDeJogo < melhorTempoJogadorX || melhorTempoJogadorX === "-"){
+  if (jogador == "X" && (tempoDeJogo < melhorTempoJogadorX || melhorTempoJogadorX === "-")){
     melhorTempoJogadorX = tempoDeJogo.toFixed(2);
-  } else if(jogador == "O" && tempoDeJogo < melhorTempoJogadorO || melhorTempoJogadorO === "-"){
+  } else if(jogador == "O" && (tempoDeJogo < melhorTempoJogadorO || melhorTempoJogadorO === "-")){
     melhorTempoJogadorO = tempoDeJogo.toFixed(2);
   }
+  exibirMelhorTempo();
 }
 
 function exibirPontuacao(){
