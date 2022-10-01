@@ -3,7 +3,15 @@ let listaPosicoes = [];
 const referenciaAviso = document.getElementById("aviso");
 const referenciaLinhaJogadorVez = document.getElementById("linhaJogadorDaVez");
 let referenciaJogadorAtual = document.getElementById("sJogadorDaVez");
+let referenciaTempoDeJogo = document.getElementById("tempoDeJogoSegundos");
 let jogoBloqueado = false;
+let pontuacaoJogadorX = 0;
+let pontuacaoJogadorO = 0;
+let numeroDeJogadas = 0;
+let inicioJogo = Date.now();
+let fimJogo;
+let melhorTempoJogadorX = "-";
+let melhorTempoJogadorO = "-";
 
 function marcarCasa(evento, numeroCasa) {
   // alert(`Você clicou na casa ${numeroCasa}`);
@@ -23,16 +31,19 @@ function marcarCasa(evento, numeroCasa) {
       referenciaJogadorAtual.innerText = trocarTurno(jogadorAtual);
       bloquearCasa(numeroCasa);
       atualizarJogadorDaCasa(numeroCasa, jogadorAtual);
+      numeroDeJogadas++;
       if (verificarVencedor()) {
         referenciaAviso.style.color = "green";
         referenciaAviso.innerText = `O jogador ${jogadorAtual} venceu!!`;
         bloquearJogo();
-        // referenciaLinhaJogadorVez.innerText = "O jogo acabou!";
+        lancarMelhorTempoJogador(jogadorAtual, calcularTempoEmSegundos(inicioJogo, fimJogo));
+        pontuarJogadorVencedor(jogadorAtual);
+        exibirTempoDeJogo();
       }
-      if (verificarSeTodasCasasPreenchidas()) {
+      if (verificarSeTodasCasasPreenchidas() && !verificarVencedor()) {
         referenciaAviso.innerText = `Deu velha. Ninguém venceu!`;
         bloquearJogo();
-        // referenciaLinhaJogadorVez.innerText = "O jogo acabou!";
+        exibirTempoDeJogo();
       }
     }
   }
@@ -76,18 +87,26 @@ function verificarSeTodasCasasPreenchidas() {
 
 function bloquearJogo() {
   jogoBloqueado = true;
+  fimJogo = Date.now();
 }
 function desbloquearJogo() {
   jogoBloqueado = false;
+  inicioJogo = Date.now();
+}
+
+function calcularTempoEmSegundos(inicio, fim){
+  return (fim - inicio) / 1000 ;
 }
 
 function reiniciarJogo() {
   listaCasasBloqueadas = [];
   listaPosicoes = [];
   referenciaAviso.innerText = "";
-
   limparCasas();
   desbloquearJogo();
+  numeroDeJogadas = 0;
+  referenciaTempoDeJogo.innerText = "";
+  exibirMelhorTempo();
 }
 
 function limparCasas() {
@@ -96,6 +115,76 @@ function limparCasas() {
   for (var i = 0; i < lista.length; i++) {
     lista[i].innerText = "";
   }
+}
+
+function pontuarJogadorVencedor(jogador){
+  if (jogador === "X"){
+    if (pontoExtra()){
+      pontuacaoJogadorX += 2;
+    } else{
+      pontuacaoJogadorX++;
+    }
+  }else if(jogador === "O"){
+    if (pontoExtra()){
+      pontuacaoJogadorO += 2;
+    } else{
+      pontuacaoJogadorO++;
+    }
+  }
+  exibirPontuacao();
+}
+
+function lancarMelhorTempoJogador(jogador, tempoDeJogo){
+
+  if (jogador == "X" && tempoDeJogo < melhorTempoJogadorX || melhorTempoJogadorX === "-"){
+    melhorTempoJogadorX = tempoDeJogo.toFixed(2);
+  } else if(jogador == "O" && tempoDeJogo < melhorTempoJogadorO || melhorTempoJogadorO === "-"){
+    melhorTempoJogadorO = tempoDeJogo.toFixed(2);
+  }
+}
+
+function exibirPontuacao(){
+  let jogadorX = document.getElementById("pontosJogadorX");
+  let jogadorO = document.getElementById("pontosJogadorO");
+
+  jogadorX.innerText = pontuacaoJogadorX;
+  jogadorO.innerText = pontuacaoJogadorO;
+}
+
+function exibirMelhorTempo(){
+  //conferir quem for o menor e deixar verde, maior vermelho
+  let tempoX = document.getElementById("melhorTempoJogadorX");
+  let tempoO = document.getElementById("melhorTempoJogadorO");
+
+  tempoX.innerText = melhorTempoJogadorX;
+  tempoO.innerText = melhorTempoJogadorO;
+
+  if (!(melhorTempoJogadorX === "-" || melhorTempoJogadorO === "-")){
+    if (melhorTempoJogadorX < melhorTempoJogadorO){
+      tempoX.style.color = "green";
+      tempoO.style.color = "red";
+    } else{
+      tempoX.style.color = "red";
+      tempoO.style.color = "green";
+    }
+  }
+}
+
+function exibirTempoDeJogo(){
+  referenciaTempoDeJogo.innerText = Math.floor(calcularTempoEmSegundos(inicioJogo, fimJogo)) + " segundos!";
+}
+
+function zerarPlacar(){
+  pontuacaoJogadorX = 0;
+  pontuacaoJogadorO = 0;
+  melhorTempoJogadorX = "-";
+  melhorTempoJogadorO = "-";
+  exibirPontuacao();
+  exibirMelhorTempo();
+}
+
+function pontoExtra(){
+ return numeroDeJogadas <= 8;
 }
 
 function verificarVencedor() {

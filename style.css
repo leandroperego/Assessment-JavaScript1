@@ -29,6 +29,23 @@ footer{
   font-weight: bold;
 }
 
+table, th, td{
+  border: 1px solid;
+  border-collapse: collapse;
+  padding: 10px;
+}
+
+#placar{
+  position: absolute;
+  top: 140px;
+  left: 230px;
+}
+
+#btPlacar{
+  width: 100%;
+  margin-top: 10px;
+}
+
 .btPadrao{
   background-color: rgb(000,50,80);
   border-radius: 5px;

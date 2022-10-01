@@ -34,8 +34,31 @@
       <span class="tile" onclick="marcarCasa(event, 8)"></span>
       <span class="tile" onclick="marcarCasa(event, 9)"></span>
     </div>
+    
+    <section id="placar">
+      <table>
+        <tr>
+          <th colspan="2">Pontuação</th>
+          <th>Melhor Tempo</th>
+        </tr>
+        <tr>
+          <th>Jogador X:</th>
+          <td id="pontosJogadorX">0</td>
+          <td><span id="melhorTempoJogadorX">-</span></td>
+        </tr>
+        <tr>
+          <th>Jogador O:</th>
+          <td id="pontosJogadorO">0</td>
+          <td><span id="melhorTempoJogadorO">-</span></td>
+        </tr>
+      </table>
+      <button id="btPlacar" class="btPadrao" onclick="zerarPlacar()">Zerar Placar</button>
+    </section>
   </main>
   <footer>
+    <p>
+      Tempo de Jogo: <span id="tempoDeJogoSegundos"></span>
+    </p>
     <button class="btPadrao" onclick="reiniciarJogo()">Reiniciar Jogo</button>
     <p id="aviso"></p>
   </footer>
